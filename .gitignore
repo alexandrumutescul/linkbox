@@ -1,0 +1,5 @@
+node_modules/
+
+# Runtime SQLite data
+data/*
+!data/.gitkeep
