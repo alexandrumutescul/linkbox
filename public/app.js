@@ -171,6 +171,7 @@ function renderBookmarkEdit(bookmark) {
           <textarea id="edit-notes-${escapeHtml(bookmark.id)}" name="notes" rows="3">${escapeHtml(bookmark.notes)}</textarea>
         </label>
       </div>
+      <p class="edit-status error-text" data-edit-status aria-live="polite"></p>
       <div class="row-actions">
         <button type="button" class="button button-primary" data-action="save" data-bookmark-id="${escapeHtml(bookmark.id)}">Save</button>
         <button type="button" class="button button-secondary" data-action="cancel" data-bookmark-id="${escapeHtml(bookmark.id)}">Cancel</button>
@@ -246,16 +247,30 @@ function getBookmarkById(id) {
 }
 
 function getEditPayload(row) {
+  const urlInput = row.querySelector('[name="url"]');
   return {
-    url: row.querySelector('[name="url"]')?.value.trim() || '',
+    url: String(urlInput?.value || '').trim(),
     title: row.querySelector('[name="title"]')?.value.trim() || '',
     tags: row.querySelector('[name="tags"]')?.value.trim() || '',
     notes: row.querySelector('[name="notes"]')?.value.trim() || '',
   };
 }
 
+function setEditStatus(row, message) {
+  const status = row.querySelector('[data-edit-status]');
+  if (!status) return;
+  status.textContent = message;
+}
+
 async function handleSave(id, row) {
   const payload = getEditPayload(row);
+
+  if (!payload.url) {
+    setEditStatus(row, 'URL is required');
+    return;
+  }
+
+  setEditStatus(row, '');
   setListStatus('Saving bookmark...');
 
   try {
