@@ -7,11 +7,62 @@
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-    <main class="shell">
-      <p class="eyebrow">Linkbox</p>
-      <h1>Your bookmark box is ready.</h1>
-      <p class="lede">The Express server is serving this starter page from the public directory.</p>
-      <p id="asset-status" class="status">Waiting for frontend JavaScript...</p>
+    <main class="app-shell" aria-labelledby="app-title">
+      <header class="app-header">
+        <p class="eyebrow">Linkbox</p>
+        <h1 id="app-title">Bookmark manager</h1>
+        <p class="lede">Save, search, filter, and edit the links you want to keep close.</p>
+      </header>
+
+      <section class="panel" aria-labelledby="add-bookmark-title">
+        <h2 id="add-bookmark-title">Add a bookmark</h2>
+        <form id="add-bookmark-form" class="bookmark-form">
+          <div class="form-grid">
+            <label class="field" for="bookmark-url">
+              <span>URL</span>
+              <input id="bookmark-url" name="url" type="url" placeholder="https://example.com" required autocomplete="url">
+            </label>
+            <label class="field" for="bookmark-title">
+              <span>Title</span>
+              <input id="bookmark-title" name="title" type="text" placeholder="Example site" autocomplete="off">
+            </label>
+            <label class="field" for="bookmark-tags">
+              <span>Tags</span>
+              <input id="bookmark-tags" name="tags" type="text" placeholder="work, docs, reading" autocomplete="off">
+            </label>
+            <label class="field field-wide" for="bookmark-notes">
+              <span>Notes</span>
+              <textarea id="bookmark-notes" name="notes" rows="3" placeholder="Why this link matters"></textarea>
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="button button-primary">Add bookmark</button>
+            <p id="form-status" class="inline-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="browse-bookmarks-title">
+        <div class="section-header">
+          <div>
+            <h2 id="browse-bookmarks-title">Browse bookmarks</h2>
+            <p class="muted">Search by title, URL, notes, or narrow to a single tag.</p>
+          </div>
+          <div class="filter-grid" role="search">
+            <label class="field compact" for="search-input">
+              <span>Search</span>
+              <input id="search-input" name="search" type="search" placeholder="Search bookmarks" autocomplete="off">
+            </label>
+            <label class="field compact" for="tag-filter-input">
+              <span>Tag filter</span>
+              <input id="tag-filter-input" name="tag" type="search" placeholder="e.g. docs" autocomplete="off">
+            </label>
+          </div>
+        </div>
+
+        <p id="list-status" class="list-status" role="status" aria-live="polite"></p>
+        <div id="bookmark-list" class="bookmark-list" aria-label="Bookmarks"></div>
+      </section>
     </main>
     <script src="/app.js" defer></script>
   </body>
